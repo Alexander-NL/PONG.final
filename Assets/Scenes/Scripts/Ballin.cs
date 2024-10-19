@@ -5,6 +5,7 @@ using UnityEngine;
 public class Ballin : MonoBehaviour
 {
     public SpriteRenderer Sprite;
+    public TrailRenderer Trail;
     public bool InMenu = false;
     private Rigidbody2D rb2d;
     public AudioSource BallSound;
@@ -19,6 +20,7 @@ public class Ballin : MonoBehaviour
             Invoke("GoBall", 2); 
         }
     }
+
     public void GoBall()
     {
         transform.position = new Vector2(0,0);
@@ -27,13 +29,11 @@ public class Ballin : MonoBehaviour
         if (rand < 1)
         { 
             rb2d.AddForce(new Vector2(0.05f, -0.05f));
-
         }
         else
         {
             rb2d.AddForce(new Vector2(-0.05f, -0.05f));
         }
-    
     }
 
     void OnCollisionEnter2D(Collision2D coll)
@@ -47,10 +47,19 @@ public class Ballin : MonoBehaviour
             PlayerSound.Play();
         }
         BallSound.Play();
+
         float r = Random.Range(0f, 1f);
         float g = Random.Range(0f, 1f);
         float b = Random.Range(0f, 1f);
-        Sprite.color = new Color(r, g, b);
+        Color randomColor = new Color(r, g, b);
+
+        Sprite.color = randomColor;
+
+        if (Trail != null)
+        {
+            Trail.startColor = randomColor;
+            Trail.endColor = randomColor;
+        }
     }
 
     public void RestartBall()
@@ -65,5 +74,4 @@ public class Ballin : MonoBehaviour
         rb2d.velocity = Vector2.zero;
         transform.position = Vector2.zero;
     }
-
 }
