@@ -3,7 +3,7 @@ Pong
 
 <tbody>
     <tr>
-      <td><img src="https://github.com/Alexander-NL/Krynlis/blob/main/Krynlis.gif"/></td>
+      <td><img src="https://github.com/Alexander-NL/PONG.final/blob/main/NewPong.gif"/></td>
     </tr>
 <br>
 
