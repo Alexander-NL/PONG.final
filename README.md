@@ -11,6 +11,9 @@ Pong
 scripts:
 |  Script       | Description                                                  |
 | ------------------- | ------------------------------------------------------------ |
+| `RelayManager.cs` | for using Relay in Unity to Host and Join Multiplayer lobby |
+| `ForcePlayerMove.cs` | to overide Unity netcode default spawn location and spawn players at different place |
+| `
 | `etc`  | |
 
 Post Processing used:
