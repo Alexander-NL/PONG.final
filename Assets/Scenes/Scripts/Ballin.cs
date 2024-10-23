@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
-public class Ballin : MonoBehaviour
+public class Ballin : NetworkBehaviour
 {
     public SpriteRenderer Sprite;
-    public TrailRenderer Trail;
+    public TrailRenderer BallTrail;
     public bool InMenu = false;
     private Rigidbody2D rb2d;
     public AudioSource BallSound;
@@ -14,13 +15,13 @@ public class Ballin : MonoBehaviour
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>(); 
-        if(InMenu ==  true){
+        if(InMenu == true){
             Invoke("GoBall", 0); 
         }else{
             Invoke("GoBall", 2); 
         }
     }
-
+    
     public void GoBall()
     {
         transform.position = new Vector2(0,0);
@@ -55,11 +56,8 @@ public class Ballin : MonoBehaviour
 
         Sprite.color = randomColor;
 
-        if (Trail != null)
-        {
-            Trail.startColor = randomColor;
-            Trail.endColor = randomColor;
-        }
+        BallTrail.startColor = randomColor;
+        BallTrail.endColor = randomColor;
     }
 
     public void RestartBall()

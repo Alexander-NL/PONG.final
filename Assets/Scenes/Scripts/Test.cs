@@ -2,45 +2,102 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Unity.Netcode;
 
-public class Test : MonoBehaviour
+public class Test : NetworkBehaviour
 {
-    public GameObject WinObject1 , WinObject2;
+    public GameObject WinObject1, WinObject2;
     public TMP_Text score1;
     public TMP_Text score2;
-    int scoreplayer1 = 0;
-    int scoreplayer2 = 0;
     public Ballin ballcon;
 
-    public void addScore(int id)
+    private NetworkVariable<int> scorePlayer1 = new NetworkVariable<int>();
+    private NetworkVariable<int> scorePlayer2 = new NetworkVariable<int>();
+
+    [ServerRpc(RequireOwnership = false)]
+    public void AddScoreServerRpc(int id)
     {
-        if(id == 1)
+        if (NetworkManager.Singleton.ConnectedClients.Count < 2)
         {
-            scoreplayer1++;
-            score1.text=scoreplayer1.ToString();
+            return;
         }
-        else if(id == 2)
+
+        if (id == 1)
         {
-            scoreplayer2++;
-            score2.text=scoreplayer2.ToString();
+            scorePlayer1.Value++;
         }
+        else if (id == 2)
+        {
+            scorePlayer2.Value++;
+        }
+
+        UpdateScoreUI();
+    }
+
+    private void UpdateScoreUI()
+    {
+        score1.text = scorePlayer1.Value.ToString();
+        score2.text = scorePlayer2.Value.ToString();
+    }
+
+    private void Start()
+    {
+        scorePlayer1.OnValueChanged += (oldValue, newValue) => UpdateScoreUI();
+        scorePlayer2.OnValueChanged += (oldValue, newValue) => UpdateScoreUI();
     }
 
     void FixedUpdate()
     {
-        if(scoreplayer1==5)
+        if (IsServer)
         {
-            ballcon.ResetBall();
-            WinObject1.SetActive(true);
-            scoreplayer1=0;
-            scoreplayer2=0;
+            if (scorePlayer1.Value == 5)
+            {
+                ballcon.ResetBall(); 
+                ShowEndScreen(true);
+                ResetScores();
+            }
+            else if (scorePlayer2.Value == 5)
+            {
+                ballcon.ResetBall(); 
+                ShowEndScreen(false);
+                ResetScores();
+            }
         }
-        else if(scoreplayer2==5)
+    }
+
+    private void ShowEndScreen(bool isHostWinner)
+    {
+        foreach (ulong clientId in NetworkManager.Singleton.ConnectedClientsIds)
         {
-            ballcon.ResetBall();
-            WinObject2.SetActive(true);
-            scoreplayer1=0;
-            scoreplayer2=0;
+            if (clientId == NetworkManager.Singleton.LocalClientId)
+            {
+                if (isHostWinner)
+                {
+                    WinObject1.SetActive(true);
+                }
+                else
+                {
+                    WinObject2.SetActive(true);
+                }
+            }
+            else
+            {
+                if (isHostWinner)
+                {
+                    WinObject1.SetActive(true);
+                }
+                else
+                {
+                    WinObject2.SetActive(true);
+                }
+            }
         }
+    }
+
+    private void ResetScores()
+    {
+        scorePlayer1.Value = 0;
+        scorePlayer2.Value = 0;
+        UpdateScoreUI();
     }
 }
