@@ -49,9 +49,13 @@ this game is developed in **Unity Editor 2022.3.11f1**
 
 ASSET USED:
 1. BG: Synth Cities Environment
+2. Warpen Font
+3. Silent GUI by Prinbles
 
 LINK:
 1. https://ansimuz.itch.io/cyberpunk-street-environment
+2. https://www.dafont.com/warpen.font
+3. https://prinbles.itch.io/silent
 
 Itch.io:
 https://alexnathan.itch.io/pong
