@@ -11,7 +11,7 @@ Multi-Pong is a 2D pong game that uses Relay and Netcode Unity package so it can
 scripts:
 |  Script       | Description                                                  | Development Time |
 | ------------------- | ------------------------------------------------------------ | -- |
-| `RelayManager.cs` | for using Relay in Unity to Host and Join Multiplayer with randomized 6 Letters lobby which 2 players can join without manually setting it up using only Netcode | ≈ 8 hours
+| `RelayManager.cs` | for using Relay in Unity to Host and Join Multiplayer with randomized 6 Letters lobby which 2 players can join without manually setting it up using only Netcode | ≈ 5 hours
 | `ForcePlayerMove.cs` | to overide Unity netcode default spawn location and spawn players at different place | ≈ 2 hours |
 | `Test.cs` | to keep track of the score using oncollision2d and addScoreserverRPC | ≈ 2 hours |
 | `Ballin.cs` | Any function that is related to the ball and its movement like when it adds a score, and ranomized start vector so it doesnt always shoot the same area | ≈ 2 hours
